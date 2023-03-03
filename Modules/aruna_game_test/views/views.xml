@@ -1,0 +1,69 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="aruna_game_test.list">
+      <field name="name">aruna_game_test list</field>
+      <field name="model">aruna_game_test.aruna_game_test</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="report" />
+          <field name="x_pos" />
+          <field name="y_pos" />
+          <field name="facing" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="aruna_game_test.form">
+      <field name="name">aruna_game_test form</field>
+      <field name="model">aruna_game_test.aruna_game_test</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="move_robot" string="Move" type="object" class="btn-primary"/>
+            <button name="turn_robot" context="{'turn_direction': 'left'}" string="Left" type="object" class="btn-primary"/>
+            <button name="turn_robot" context="{'turn_direction': 'right'}" string="Right" type="object" class="btn-primary"/>
+          </header>
+          <group>
+            <group>
+              <group>
+                <field name="x_pos" />
+                <field name="y_pos" />
+                <field name="facing" />
+                <footer>
+                  <button name="place_robot" string="Place" type="object" class="btn-primary" />
+                </footer>
+              </group>
+             
+            </group>
+            <group>
+              <field name="report" />
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="aruna_game_test.action_window">
+      <field name="name">aruna_game_test window</field>
+      <field name="res_model">aruna_game_test.aruna_game_test</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+
+    <menuitem name="Game" id="aruna_game_test.menu_root" />
+
+    <!-- menu categories -->
+
+    <menuitem name="Game" id="aruna_game_test.menu_1" parent="aruna_game_test.menu_root" />
+
+    <!-- actions -->
+
+    <menuitem name="Game" id="aruna_game_test.menu_1_list" parent="aruna_game_test.menu_1"
+      action="aruna_game_test.action_window" />
+
+  </data>
+</odoo>
