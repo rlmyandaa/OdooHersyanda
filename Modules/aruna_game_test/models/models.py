@@ -64,11 +64,14 @@ class aruna_game_test(models.Model):
     
     @api.constrains('x_pos', 'y_pos')
     def _restrict_out_of_bound_coordinate(self):
-        """" Avoid robot to move to out of bound area. """
+        """"
+        Avoid robot to move to out of bound area.
+        Since the board is 5x5 and coordinate start from 0, so the limit is 4.
+        """
         for record in self:
-            if record.x_pos > 5 or record.x_pos < 0:
+            if record.x_pos > 4 or record.x_pos < 0:
                 raise ValidationError('X Coordinate is out of bound, object would fall.')
-            if record.y_pos > 5 or record.y_pos < 0:
+            if record.y_pos > 4 or record.y_pos < 0:
                 raise ValidationError('Y Coordinate is out of bound, object would fall.')
     
     def place_robot(self):
