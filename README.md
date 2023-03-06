@@ -18,4 +18,5 @@ All unittest for this module is tagged as 'aruna', to run all the unittest we co
     python3 odoo-bin--test-enable --test-tags aruna --stop-after-init
 
 Developed using Odoo v13
+
 Tested on Odoo v13 and Odoo v15
