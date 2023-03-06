@@ -5,6 +5,10 @@ from enum import Enum, auto
 class ProperPositionException(ValidationError):
     pass
 
+class TestingException(Exception):
+    def __init__(self, error_data):
+        self.error_data = error_data
+
 
 class eObjectFacing(str, Enum):
     north = auto()
