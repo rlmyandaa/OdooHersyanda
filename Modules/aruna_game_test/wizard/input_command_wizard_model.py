@@ -1,13 +1,13 @@
-from email.policy import default
-from odoo import models, fields, exceptions
+from odoo import models, fields
 from odoo.exceptions import ValidationError
-from ..utils.constants import COMMAND_MAP, OBJECT_TURNING_POS, TestingException
+from ..utils.constants import COMMAND_MAP, OBJECT_TURNING_POS
+from ..utils.exceptions import TestingException
 from ..models.models import aruna_game_test
 
 
 class InputCommandWizard(models.TransientModel):
     _name = 'input.command.wizard'
-    _description = 'Input Command Wizaard'
+    _description = 'Input Command Wizard'
 
     input_cmd = fields.Text(string="Input Command")
 
@@ -138,15 +138,12 @@ class InputCommandWizard(models.TransientModel):
                     game_data.x_pos, game_data.y_pos, game_data.facing.upper())
                 error_msg = error_msg_1 + error_msg_reason + \
                     error_msg_pos_head_before_error + error_msg_pos_head_at_error
-                
+
                 if self.env.context.get('is_testing'):
                     error_data = {
-                        'line': line,
-                        'command': cmd,
-                        'reason': e.name,
-                        'position_before_error': [initial_x_pos, initial_y_pos, initial_facing.upper()],
-                        'position_at_error': [game_data.x_pos, game_data.y_pos, game_data.facing.upper()]
-                    }
+                        'line': line, 'command': cmd, 'reason': e.name, 'position_before_error': [
+                            initial_x_pos, initial_y_pos, initial_facing.upper()], 'position_at_error': [
+                            game_data.x_pos, game_data.y_pos, game_data.facing.upper()]}
                     raise TestingException(error_data)
 
                 raise ValidationError(error_msg)

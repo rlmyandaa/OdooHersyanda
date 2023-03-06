@@ -1,16 +1,10 @@
-from odoo.exceptions import ValidationError
 from enum import Enum, auto
 
 
-class ProperPositionException(ValidationError):
-    pass
-
-class TestingException(Exception):
-    def __init__(self, error_data):
-        self.error_data = error_data
-
-
 class eObjectFacing(str, Enum):
+    """
+    Enum for object facing.
+    """
     north = auto()
     east = auto()
     south = auto()
@@ -18,19 +12,24 @@ class eObjectFacing(str, Enum):
 
 
 class eObjectTurnDirection(str, Enum):
+    """
+    Enum for object turning direction.
+    """
     left = auto()
     right = auto()
-
-
-class eMoveModifier:
-    def __init__(self, x_pos, y_pos) -> None:
-        self.x_pos = x_pos
-        self.y_pos = y_pos
 
 
 # Object turning sequence, from left to right
 OBJECT_TURNING_POS = [eObjectFacing.north.name, eObjectFacing.east.name,
                       eObjectFacing.south.name, eObjectFacing.west.name]
+
+
+class eMoveModifier:
+    """ Custom class to store x and y pos, so that calling the x and y pos value will be easier."""
+
+    def __init__(self, x_pos, y_pos) -> None:
+        self.x_pos = x_pos
+        self.y_pos = y_pos
 
 
 # Move modifier value, origin coordinate / (0,0) coordinate is on most
@@ -42,7 +41,7 @@ MOVE_MODIFIER = {
     eObjectFacing.west.name: eMoveModifier(x_pos=-1, y_pos=0)
 }
 
-# Command List
+# Command List for Command Input
 COMMAND_MAP = {
     'LEFT': {
         'func': 'turn_robot',
@@ -67,18 +66,11 @@ COMMAND_MAP = {
 }
 
 
-def check_table_pos(func):
-    """Decorator to check whether command should be ignored or not.
-    Command will only executed if the robot is properly placed in the table
-    """
-
-    def inner(self):
-        if not self.is_properly_placed:
-            return None
-        else:
-            # Execute function first, then check whether the function execution is valid
-            # (within the table boundary area)
-            func(self)
-            return self._check_out_of_bound()
-
-    return inner
+# Arrow symbol mapping, used to render html data to visualize object
+# position in the table.
+DIRECTION_ARROW = {
+    eObjectFacing.north.name: '↑',
+    eObjectFacing.east.name: '→',
+    eObjectFacing.south.name: '↓',
+    eObjectFacing.west.name: '←'
+}

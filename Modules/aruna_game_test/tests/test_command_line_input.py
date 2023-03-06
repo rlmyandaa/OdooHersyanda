@@ -6,6 +6,7 @@ from ..utils.constants import eObjectFacing
 from ..wizard.input_command_wizard_model import InputCommandWizard
 from ..utils.test_utils import execute_wizard_cli
 
+
 @tagged('aruna', 'test_command_line_input', '-at_install', 'post_install')
 class TestCommandLineInput(TransactionCase):
     def setUp(self):
@@ -108,7 +109,7 @@ class TestCommandLineInput(TransactionCase):
         report_should_be = '{},{},{}'.format(
             3, 3, eObjectFacing.north.name.upper())
         self.assertEqual(report_data, report_should_be)
-    
+
     def test_4_input_cli_sample_4(self):
         # Test 1 is using sample from this Interview Test Case and modified
         # Input :
@@ -147,7 +148,7 @@ class TestCommandLineInput(TransactionCase):
         report_should_be = '{},{},{}'.format(
             4, 4, eObjectFacing.west.name.upper())
         self.assertEqual(report_data, report_should_be)
-    
+
     def test_5_input_cli_sample_5(self):
         # All input before place should be discarded
         # Input :]

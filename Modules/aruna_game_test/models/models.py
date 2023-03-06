@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, ProperPositionException, \
-    eMoveModifier, eObjectTurnDirection, MOVE_MODIFIER, check_table_pos
-
-DIRECTION_ARROW = {
-    eObjectFacing.north.name: '↑',
-    eObjectFacing.east.name: '→',
-    eObjectFacing.south.name: '↓',
-    eObjectFacing.west.name: '←'
-}
+from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, eMoveModifier,\
+    eObjectTurnDirection, MOVE_MODIFIER, DIRECTION_ARROW
+from ..utils.exceptions import ProperPositionException
+from ..utils.common_utils import check_table_pos
 
 
 class aruna_game_test(models.Model):
@@ -37,51 +32,6 @@ class aruna_game_test(models.Model):
     html_data = fields.Html(
         string="Position View",
         compute="_compute_html_data")
-
-    def _compute_html_data(self):
-        for record in self:
-            x_pos = record.x_pos
-            y_pos = record.y_pos
-            tr_data = """"""
-            # Loop y axis
-            for y_loop in range(4, -1, -1):
-
-                td_data = """"""
-                # Loop x axis
-                for x_loop in range(0, 5):
-                    # Get arrow data
-                    arrow_data = ""
-                    if x_pos == x_loop and y_pos == y_loop:
-                        arrow_data = DIRECTION_ARROW.get(record.facing)
-                    additional_style = """"""
-
-                    # Add aditional style
-                    if y_loop == 0 and x_loop == 0:
-                        additional_style = """background-color:#F5F5DC;"""
-
-                    # Create and append <td> data
-                    base_td = """
-                    <td class="text-center" style="height: 6vh; width: 6vh; {}">
-                    {}
-                    </td>""".format(additional_style, arrow_data)
-                    td_data += base_td
-
-                # Append <td> data to <tr>
-                base_tr = """
-                    <tr>{}</tr>
-                """.format(td_data)
-                tr_data += base_tr
-
-            # Append table data
-            record.html_data = """
-                <div style="height: 200px; width: 200px;">
-                    <table class="table table-bordered">
-                        <tbody>
-                            {}
-                        </tbody>
-                    </table>
-                </div>
-            """.format(tr_data)
 
     @api.depends('x_pos', 'y_pos', 'facing')
     def _compute_report(self):
@@ -216,6 +166,7 @@ class aruna_game_test(models.Model):
                     'Y Coordinate is out of bound, object would fall.')
 
     def check_is_properly_placed(self):
+        """ Check if object is properly placed in the table."""
         self.ensure_one()
         if self.is_placed:
             if self.x_pos > 4 or self.x_pos < 0:
@@ -224,3 +175,55 @@ class aruna_game_test(models.Model):
                 return False
             return True
         return False
+
+    ########################################################################
+    # Additional compute to draw robot position in the table
+    ########################################################################
+
+    def _compute_html_data(self):
+        """ Build HTML data to show robot position in the table."""
+        for record in self:
+            # Initialize current position
+            x_pos = record.x_pos
+            y_pos = record.y_pos
+
+            tr_data = """"""
+            # Loop y axis
+            for y_loop in range(4, -1, -1):
+
+                td_data = """"""
+                # Loop x axis
+                for x_loop in range(0, 5):
+                    # Get arrow data
+                    arrow_data = ""
+                    if x_pos == x_loop and y_pos == y_loop:
+                        arrow_data = DIRECTION_ARROW.get(record.facing)
+                    additional_style = """"""
+
+                    # Add aditional style
+                    if y_loop == 0 and x_loop == 0:
+                        additional_style = """background-color:#F5F5DC;"""
+
+                    # Create and append <td> data
+                    base_td = """
+                    <td class="text-center" style="height: 6vh; width: 6vh; {}">
+                    {}
+                    </td>""".format(additional_style, arrow_data)
+                    td_data += base_td
+
+                # Append <td> data to <tr>
+                base_tr = """
+                    <tr>{}</tr>
+                """.format(td_data)
+                tr_data += base_tr
+
+            # Append table data
+            record.html_data = """
+                <div style="height: 200px; width: 200px;">
+                    <table class="table table-bordered">
+                        <tbody>
+                            {}
+                        </tbody>
+                    </table>
+                </div>
+            """.format(tr_data)

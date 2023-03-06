@@ -2,7 +2,8 @@
 
 from odoo.tests.common import TransactionCase, tagged
 from ..models.models import aruna_game_test
-from ..utils.constants import eObjectTurnDirection, eObjectFacing, ProperPositionException
+from ..utils.constants import eObjectTurnDirection, eObjectFacing
+from ..utils.exceptions import ProperPositionException
 
 
 @tagged('aruna', 'test_positioning', '-at_install', 'post_install')
