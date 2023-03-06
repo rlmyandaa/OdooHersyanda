@@ -120,9 +120,52 @@ class TestPositioning(TransactionCase):
         self.base_game.move_robot()
         self.base_game.move_robot()
         self.base_game.move_robot()
-        self.base_game.with_context(turn_direction='right').turn_robot()
+        self.base_game.with_context(
+            turn_direction=eObjectTurnDirection.right.name).turn_robot()
 
         # Check position
         self.assertEqual(self.base_game.x_pos, -5)
         self.assertEqual(self.base_game.y_pos, -5)
-        self.assertEqual(self.base_game.facing, 'north')
+        self.assertEqual(self.base_game.facing, eObjectFacing.north.name)
+
+    def test_5_placing_out_and_in_boundary_area(self):
+        # When object placed inside table boundary, then placed outside table boundary,
+        # and then triggered using any movement command, there should not be any error due to
+        # all movement command is ignored when outside table boundary.
+
+        self.base_game.write({
+            'x_pos': 0,
+            'y_pos': 0,
+            'facing': eObjectFacing.east.name
+        })
+        self.base_game.place_robot()
+        self.base_game.move_robot()
+        self.base_game.move_robot()
+        self.base_game.move_robot()
+        self.base_game.with_context(
+            turn_direction=eObjectTurnDirection.right.name).turn_robot()
+
+        # Check position
+        self.assertEqual(self.base_game.x_pos, 3)
+        self.assertEqual(self.base_game.y_pos, 0)
+        self.assertEqual(self.base_game.facing, eObjectFacing.south.name)
+
+        # Now, place the robot outside the table, then try again moving the robot.
+        # There should not be any error due to object about to fall off the
+        # table.
+        self.base_game.write({
+            'x_pos': -5,
+            'y_pos': -5,
+            'facing': eObjectFacing.east.name
+        })
+        self.base_game.place_robot()
+        exception_raised = False
+        try:
+            self.base_game.place_robot()
+            self.base_game.move_robot()
+            self.base_game.move_robot()
+            self.base_game.move_robot()
+        except ValidationError:
+            exception_raised = True
+
+        self.assertFalse(exception_raised)

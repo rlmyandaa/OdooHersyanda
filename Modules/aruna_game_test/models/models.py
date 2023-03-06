@@ -171,9 +171,10 @@ class aruna_game_test(models.Model):
         if self.is_placed:
             if self.x_pos > 4 or self.x_pos < 0:
                 return False
-            if self.y_pos > 4 or self.y_pos < 0:
+            elif self.y_pos > 4 or self.y_pos < 0:
                 return False
-            return True
+            else:
+                return True
         return False
 
     ########################################################################
