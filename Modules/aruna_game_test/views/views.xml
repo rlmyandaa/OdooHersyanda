@@ -48,12 +48,12 @@
           <group>
             <div>
               <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
-                  aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn btn-primary" data-toggle="collapse" href="#debugCollapse" role="button"
+                  aria-expanded="false" aria-controls="debugCollapse">
                   Debug Tools / Data
                 </a>
               </p>
-              <div class="collapse" id="collapseExample">
+              <div class="collapse" id="debugCollapse">
                 <div class="card card-body">
                   <group>
                     <field name="is_placed" attrs="{'readonly':[('id', '!=', False)]}"/>
@@ -73,26 +73,20 @@
     <!-- actions opening views on models -->
 
     <record model="ir.actions.act_window" id="aruna_game_test.action_window">
-      <field name="name">aruna_game_test window</field>
+      <field name="name">Aruna Odoo Test</field>
       <field name="res_model">aruna_game_test.aruna_game_test</field>
       <field name="view_mode">tree,form</field>
     </record>
 
     <!-- Top menu item -->
 
-    <menuitem name="Game" id="aruna_game_test.menu_root" />
+    <menuitem name="Aruna Odoo Test (Hersyanda)" id="aruna_game_test.menu_root" />
 
     <!-- menu categories -->
 
-    <menuitem name="Game" id="aruna_game_test.menu_1" parent="aruna_game_test.menu_root" />
-    <menuitem name="Kanban" id="aruna_game_test.menu_2" parent="aruna_game_test.menu_root" />
+    <menuitem name="Game" id="aruna_game_test.menu_1" parent="aruna_game_test.menu_root" action="aruna_game_test.action_window"/>
     <menuitem name="Input Text Command" id="aruna_game_test.input_command_menu" action="input_command_wizard_action"
       parent="aruna_game_test.menu_root" />
-
-    <!-- actions -->
-
-    <menuitem name="Game" id="aruna_game_test.menu_1_list" parent="aruna_game_test.menu_1"
-      action="aruna_game_test.action_window" />
 
   </data>
 </odoo>
