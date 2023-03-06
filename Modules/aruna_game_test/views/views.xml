@@ -4,7 +4,7 @@
       <field name="name">aruna_game_test list</field>
       <field name="model">aruna_game_test.aruna_game_test</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree create="false">
           <field name="report" />
           <field name="x_pos" />
           <field name="y_pos" />
@@ -14,14 +14,17 @@
     </record>
 
     <record model="ir.ui.view" id="aruna_game_test.form">
-      <field name="name">aruna_game_test form</field>
+      <field name="name">Game History</field>
       <field name="model">aruna_game_test.aruna_game_test</field>
       <field name="arch" type="xml">
         <form>
-          <header>
-            <button name="move_robot" string="Move" type="object" class="btn-primary"/>
-            <button name="turn_robot" context="{'turn_direction': 'left'}" string="Left" type="object" class="btn-primary"/>
-            <button name="turn_robot" context="{'turn_direction': 'right'}" string="Right" type="object" class="btn-primary"/>
+          <header class="d-flex justify-content-end">
+            <button name="move_robot" icon="fa-arrow-up" string="Move" type="object"
+              class="btn btn-lg btn-outline-primary" />
+            <button name="turn_robot" icon="fa-arrow-left" context="{'turn_direction': 'left'}" string="Left"
+              type="object" class="btn btn-lg btn-outline-primary ml-2" />
+            <button name="turn_robot" icon="fa-arrow-right" context="{'turn_direction': 'right'}" string="Right"
+              type="object" class="btn btn-lg btn-outline-primary ml-2" />
           </header>
           <group>
             <group>
@@ -29,15 +32,37 @@
                 <field name="x_pos" />
                 <field name="y_pos" />
                 <field name="facing" />
-                <footer>
-                  <button name="place_robot" string="Place" type="object" class="btn-primary" />
-                </footer>
+
               </group>
-             
+              <div class="d-flex">
+                <button name="place_robot" icon="fa-mouse-pointer" string="Place" type="object"
+                  class="btn btn-primary w-100" />
+              </div>
+
             </group>
             <group>
               <field name="report" />
             </group>
+          </group>
+          <group>
+            <div>
+              <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+                  aria-expanded="false" aria-controls="collapseExample">
+                  Debug Tools / Data
+                </a>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <group>
+                    <field name="is_placed" attrs="{'readonly':[('id', '!=', False)]}"/>
+                    <field name="is_properly_placed" attrs="{'readonly':[('id', '!=', False)]}" />
+                    <field name="is_reported" />
+                  </group>
+                </div>
+              </div>
+
+            </div>
           </group>
         </form>
       </field>
@@ -59,6 +84,9 @@
     <!-- menu categories -->
 
     <menuitem name="Game" id="aruna_game_test.menu_1" parent="aruna_game_test.menu_root" />
+    <menuitem name="Kanban" id="aruna_game_test.menu_2" parent="aruna_game_test.menu_root" />
+    <menuitem name="Input Text Command" id="aruna_game_test.input_command_menu" action="input_command_wizard_action"
+      parent="aruna_game_test.menu_root" />
 
     <!-- actions -->
 
