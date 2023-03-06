@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from distutils.log import error
-from xml.dom import ValidationErr
-import odoo
-from odoo.tests.common import HttpCase, TransactionCase, tagged
+from odoo.tests.common import TransactionCase, tagged
 from ..models.models import aruna_game_test
-from ..utils.constants import eObjectTurnDirection, eObjectFacing, ProperPositionException, TestingException
+from ..utils.constants import eObjectFacing, TestingException
 from ..wizard.input_command_wizard_model import InputCommandWizard
-from odoo.exceptions import ValidationError
 from ..utils.test_utils import execute_wizard_cli
 
 @tagged('aruna', 'test_negative_command_line_input', '-at_install', 'post_install')

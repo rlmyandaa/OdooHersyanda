@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-import odoo
-from odoo.tests.common import HttpCase, TransactionCase, tagged
+from odoo.tests.common import TransactionCase, tagged
 from ..models.models import aruna_game_test
 from ..utils.constants import eObjectTurnDirection, eObjectFacing, ProperPositionException
 

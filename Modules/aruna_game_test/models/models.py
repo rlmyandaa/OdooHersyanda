@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, COMMAND_MAP, ProperPositionException, \
+from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, ProperPositionException, \
     eMoveModifier, eObjectTurnDirection, MOVE_MODIFIER, check_table_pos
 
 DIRECTION_ARROW = {
