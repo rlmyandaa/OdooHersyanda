@@ -4,6 +4,13 @@ from odoo.exceptions import ValidationError
 from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, COMMAND_MAP, ProperPositionException, \
     eMoveModifier, eObjectTurnDirection, MOVE_MODIFIER, check_table_pos
 
+DIRECTION_ARROW = {
+    eObjectFacing.north.name: '↑',
+    eObjectFacing.east.name: '→',
+    eObjectFacing.south.name: '↓',
+    eObjectFacing.west.name: '←'
+}
+
 class aruna_game_test(models.Model):
     _name = 'aruna_game_test.aruna_game_test'
     _description = 'Aruna Odoo Interview Test'
@@ -25,6 +32,40 @@ class aruna_game_test(models.Model):
     is_properly_placed = fields.Boolean(string='Is properly placed (On Table)?', default=False)
     is_reported = fields.Boolean(string='Is report requested', default=False)
     input_cmd = fields.Text(string="Input Command")
+    html_data = fields.Html(string="Position View", compute="_compute_html_data")
+    
+    def _compute_html_data(self):
+        for record in self:
+            x_pos = record.x_pos
+            y_pos = record.y_pos
+            tr_data = """"""
+            for i in range(4, -1, -1):
+                
+                td_data = """"""
+                for y in range(0,5):
+                    arrow_data = ""
+                    if x_pos == y and y_pos == i:
+                        arrow_data = DIRECTION_ARROW.get(record.facing)
+                    base_td = """
+                    <td class="text-center" style="height: 6vh; width: 6vh;">
+                    {}
+                    </td>""".format(arrow_data)
+                    td_data += base_td
+                base_tr = """
+                    <tr>{}</tr>
+                """.format(td_data)
+                tr_data += base_tr
+            
+            record.html_data = """
+                <div style="height: 200px; width: 200px;">
+                    <table class="table table-bordered">
+                        <tbody>
+                            {}
+                        </tbody>
+                    </table>
+                </div>
+            """.format(tr_data)
+                    
     
     @api.depends('x_pos', 'y_pos', 'facing')
     def _compute_report(self):
