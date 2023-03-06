@@ -79,6 +79,8 @@ class InputCommandWizard(models.TransientModel):
         
         # Loop through command
         for cmd in command_list:
+            # Trim command for whitespace
+            cmd = cmd.strip()
             # Check if current command is the place command
             if 'PLACE' in cmd.upper():
                 place_data = self._decode_place_command(cmd.upper())
@@ -101,13 +103,9 @@ class InputCommandWizard(models.TransientModel):
                 func()
         
         return {
-            'name': ('Test Wizard'),
-
+            'name': ('Aruna Odoo Test'),
             'type': 'ir.actions.act_window',
-
             'res_model': 'aruna_game_test.aruna_game_test',
-
             'view_mode': 'form',
-
             'res_id': game_data.id
         }
