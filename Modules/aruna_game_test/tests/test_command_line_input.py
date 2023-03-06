@@ -121,3 +121,5 @@ class TestCommandLineInput(TransactionCase):
         report_data = game_record.report
         report_should_be = '{},{},{}'.format(3, 3, eObjectFacing.north.name.upper())
         self.assertEqual(report_data, report_should_be)
+    
+    

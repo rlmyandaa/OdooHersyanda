@@ -77,30 +77,60 @@ class InputCommandWizard(models.TransientModel):
         # place should be discarded
         is_place_found = False
         
+        # initial position data for error purpose
+        initial_x_pos = game_data.x_pos
+        initial_y_pos = game_data.y_pos
+        initial_facing = game_data.facing
+        
         # Loop through command
-        for cmd in command_list:
-            # Trim command for whitespace
-            cmd = cmd.strip()
-            # Check if current command is the place command
-            if 'PLACE' in cmd.upper():
-                place_data = self._decode_place_command(cmd.upper())
-                game_data.place_robot(is_from_command_input=True, command_place_data=place_data)
-                is_place_found = True
-            
-            # Only execute if place command is found
-            elif is_place_found:
-                # Get command data
-                command_data = COMMAND_MAP.get(cmd.upper())
-                if not command_data:
-                    raise ValidationError('Invalid command "{}"'.format(cmd))
+        for index, cmd in enumerate(command_list):
+            try:
+                # Trim command for whitespace
+                cmd = cmd.strip()
+                # Check if current command is the place command
+                if 'PLACE ' in cmd.upper():
+                    place_data = self._decode_place_command(cmd.upper())
+                    game_data.place_robot(is_from_command_input=True, command_place_data=place_data)
+                    is_place_found = True
                 
-                # Get function name and context data
-                func_name = command_data.get('func')
-                context_data = command_data.get('context') or dict()
+                # Only execute if place command is found
+                elif is_place_found:
+                    # Get command data
+                    command_data = COMMAND_MAP.get(cmd.upper())
+                    if not command_data:
+                        raise ValidationError('Invalid command "{}"'.format(cmd))
+                    
+                    # Get function name and context data
+                    func_name = command_data.get('func')
+                    context_data = command_data.get('context') or dict()
+                    
+                    # Save initial position data for error purpose
+                    initial_x_pos = game_data.x_pos
+                    initial_y_pos = game_data.y_pos
+                    initial_facing = game_data.facing
+                    
+                    # Execute command
+                    func = getattr(game_data.with_context(context_data), func_name)
+                    func()
+                elif not is_place_found and not COMMAND_MAP.get(cmd.upper()):
+                    msg_1 = 'Invalid command "{}"'.format(cmd)
+                    msg_2 = ''
+                    if 'place' in cmd.lower():
+                        msg_1 += '\n'
+                        msg_2 = 'Place command should be "PLACE X_POS,Y_POS,FACING", separate "PLACE" and position data with space.'
+                    msg = msg_1 + msg_2
+                    raise ValidationError(msg)
                 
-                # Execute command
-                func = getattr(game_data.with_context(context_data), func_name)
-                func()
+            except Exception as e:
+                line = index + 1
+                error_msg_1 = 'Error on Command at Line {} ({}) \n'.format(line, cmd)
+                error_msg_reason = 'Reason: {}\n'.format(e.name)
+                error_msg_pos_head_before_error = '\n\nPosition before Error: {},{},{}\n'.format(initial_x_pos, initial_y_pos, initial_facing.upper())
+                error_msg_pos_head_at_error = 'Position at Error: {},{},{}'.format(game_data.x_pos, game_data.y_pos, game_data.facing.upper())
+                error_msg = error_msg_1 + error_msg_reason + error_msg_pos_head_before_error + error_msg_pos_head_at_error
+                
+                raise ValidationError(error_msg)
+                
         
         return {
             'name': ('Aruna Odoo Test'),
