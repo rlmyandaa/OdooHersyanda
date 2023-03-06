@@ -3,7 +3,6 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from ..utils.constants import eObjectFacing, OBJECT_TURNING_POS, eMoveModifier,\
     eObjectTurnDirection, MOVE_MODIFIER, DIRECTION_ARROW
-from ..utils.exceptions import ProperPositionException
 from ..utils.common_utils import check_table_pos
 
 
@@ -122,7 +121,8 @@ class aruna_game_test(models.Model):
 
         # Get turn value to get correct heading when robot is turning,
         # example when current heading is to West, if we move right the heading should be the North.
-        # Notes that OBJECT_TURNING_POS list is specifically aranged to handle moving from left to right according to the index.
+        # Notes that OBJECT_TURNING_POS list is specifically aranged to handle
+        # moving from left to right according to the index.
         # Example if current position is West and we are moving to the right,
         # so the next correct heading will be the list after the current
         # heading index.
@@ -159,10 +159,10 @@ class aruna_game_test(models.Model):
         self.ensure_one()
         if self.is_placed and self.is_properly_placed:
             if self.x_pos > 4 or self.x_pos < 0:
-                raise ProperPositionException(
+                raise ValidationError(
                     'X Coordinate is out of bound, object would fall.')
             if self.y_pos > 4 or self.y_pos < 0:
-                raise ProperPositionException(
+                raise ValidationError(
                     'Y Coordinate is out of bound, object would fall.')
 
     def check_is_properly_placed(self):

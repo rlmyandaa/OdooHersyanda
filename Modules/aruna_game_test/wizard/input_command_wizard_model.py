@@ -123,7 +123,8 @@ class InputCommandWizard(models.TransientModel):
                     msg_2 = ''
                     if 'place' in cmd.lower():
                         msg_1 += '\n'
-                        msg_2 = 'Place command should be "PLACE X_POS,Y_POS,FACING", separate "PLACE" and position data with space.'
+                        msg_2 = 'Place command should be "PLACE X_POS,Y_POS,FACING", \
+                            separate "PLACE" and position data with space.'
                     msg = msg_1 + msg_2
                     raise ValidationError(msg)
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase, tagged
 from ..models.models import aruna_game_test
 from ..utils.constants import eObjectTurnDirection, eObjectFacing
-from ..utils.exceptions import ProperPositionException
 
 
 @tagged('aruna', 'test_positioning', '-at_install', 'post_install')
@@ -69,7 +69,7 @@ class TestPositioning(TransactionCase):
         })
         self.base_game.place_robot()
         # Try to move forward, should trigger exception
-        with self.assertRaises(ProperPositionException):
+        with self.assertRaises(ValidationError):
             self.base_game.move_robot()
 
         # Try to turn object to right, so it will face to west, then try to move forward.
@@ -86,7 +86,7 @@ class TestPositioning(TransactionCase):
         self.assertEqual(self.base_game.facing, eObjectFacing.west.name)
 
         # Try to move forward again, should trigger exception
-        with self.assertRaises(ProperPositionException):
+        with self.assertRaises(ValidationError):
             self.base_game.move_robot()
 
     def test_3_placing_out_of_bound_area(self):
