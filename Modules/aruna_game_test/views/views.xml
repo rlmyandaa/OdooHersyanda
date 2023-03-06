@@ -50,7 +50,7 @@
               <p>
                 <a class="btn btn-primary" data-toggle="collapse" href="#debugCollapse" role="button"
                   aria-expanded="false" aria-controls="debugCollapse">
-                  Debug Tools / Data
+                  Additional Information
                 </a>
               </p>
               <div class="collapse" id="debugCollapse">
