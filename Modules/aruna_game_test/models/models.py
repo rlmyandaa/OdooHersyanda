@@ -207,7 +207,7 @@ class aruna_game_test(models.Model):
 
                     # Create and append <td> data
                     base_td = """
-                    <td class="text-center" style="height: 6vh; width: 6vh; {}">
+                    <td class="text-center" style="height: 5vh; width: 5vh; {}">
                     {}
                     </td>""".format(additional_style, arrow_data)
                     td_data += base_td
