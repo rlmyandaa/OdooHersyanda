@@ -119,8 +119,11 @@ class InputCommandWizard(models.TransientModel):
                         game_data.with_context(context_data), func_name)
                     func()
                 elif not is_place_found and not COMMAND_MAP.get(cmd.upper()):
+                    # Build error message
                     msg_1 = 'Invalid command "{}"'.format(cmd)
                     msg_2 = ''
+
+                    # In case the error is place command
                     if 'place' in cmd.lower():
                         msg_1 += '\n'
                         msg_2 = 'Place command should be "PLACE X_POS,Y_POS,FACING", \
@@ -129,6 +132,7 @@ class InputCommandWizard(models.TransientModel):
                     raise ValidationError(msg)
 
             except Exception as e:
+                # Build error message
                 line = index + 1
                 error_msg_1 = 'Error on Command at Line {} ({}) \n'.format(
                     line, cmd)
@@ -140,6 +144,7 @@ class InputCommandWizard(models.TransientModel):
                 error_msg = error_msg_1 + error_msg_reason + \
                     error_msg_pos_head_before_error + error_msg_pos_head_at_error
 
+                # In case for testing purpose
                 if self.env.context.get('is_testing'):
                     error_data = {
                         'line': line, 'command': cmd, 'reason': e.name, 'position_before_error': [
