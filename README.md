@@ -7,6 +7,7 @@ Task : Create Toy Robot Simulator
 Module Name : Aruna Odoo Test (Hersyanda)
 Main Menu Name : Aruna Odoo Test (Hersyanda)
 To Input Command List, Click **Input Text Command** menu
+
 <img width="712" alt="image" src="https://user-images.githubusercontent.com/49233604/223101971-46684369-d911-483b-a63c-560a5a126d2e.png">
 
 
