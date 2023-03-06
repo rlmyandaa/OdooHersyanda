@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Aruna Odoo Test",
+    'name': "Aruna Odoo Test (Hersyanda)",
 
     'summary': """
         A simple game made for Aruna Odoo Test. """,
