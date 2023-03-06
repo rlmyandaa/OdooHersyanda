@@ -39,23 +39,36 @@ class aruna_game_test(models.Model):
             x_pos = record.x_pos
             y_pos = record.y_pos
             tr_data = """"""
-            for i in range(4, -1, -1):
+            # Loop y axis
+            for y_loop in range(4, -1, -1):
                 
                 td_data = """"""
-                for y in range(0,5):
+                # Loop x axis
+                for x_loop in range(0,5):
+                    # Get arrow data
                     arrow_data = ""
-                    if x_pos == y and y_pos == i:
+                    if x_pos == x_loop and y_pos == y_loop:
                         arrow_data = DIRECTION_ARROW.get(record.facing)
+                    additional_style = """"""
+                    
+                    # Add aditional style
+                    if y_loop == 0 and x_loop == 0:
+                        additional_style = """background-color:#F5F5DC;"""    
+                        
+                    # Create and append <td> data
                     base_td = """
-                    <td class="text-center" style="height: 6vh; width: 6vh;">
+                    <td class="text-center" style="height: 6vh; width: 6vh; {}">
                     {}
-                    </td>""".format(arrow_data)
+                    </td>""".format(additional_style, arrow_data)
                     td_data += base_td
+                
+                # Append <td> data to <tr>
                 base_tr = """
                     <tr>{}</tr>
                 """.format(td_data)
                 tr_data += base_tr
             
+            # Append table data
             record.html_data = """
                 <div style="height: 200px; width: 200px;">
                     <table class="table table-bordered">
