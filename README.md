@@ -16,3 +16,6 @@ To Input Command List, Click **Input Text Command** menu
 All unittest for this module is tagged as 'aruna', to run all the unittest we could just call this tag.
 
     python3 odoo-bin--test-enable --test-tags aruna --stop-after-init
+
+Developed using Odoo v13
+Tested on Odoo v13 and Odoo v15
