@@ -1,6 +1,7 @@
 from odoo.exceptions import ValidationError
 from enum import Enum, auto
 
+
 class ProperPositionException(ValidationError):
     pass
 
@@ -11,21 +12,25 @@ class eObjectFacing(str, Enum):
     south = auto()
     west = auto()
 
+
 class eObjectTurnDirection(str, Enum):
     left = auto()
     right = auto()
+
 
 class eMoveModifier:
     def __init__(self, x_pos, y_pos) -> None:
         self.x_pos = x_pos
         self.y_pos = y_pos
 
+
 # Object turning sequence, from left to right
 OBJECT_TURNING_POS = [eObjectFacing.north.name, eObjectFacing.east.name,
                       eObjectFacing.south.name, eObjectFacing.west.name]
 
 
-# Move modifier value, origin coordinate / (0,0) coordinate is on most South West position
+# Move modifier value, origin coordinate / (0,0) coordinate is on most
+# South West position
 MOVE_MODIFIER = {
     eObjectFacing.north.name: eMoveModifier(x_pos=0, y_pos=1),
     eObjectFacing.south.name: eMoveModifier(x_pos=0, y_pos=-1),
@@ -57,10 +62,12 @@ COMMAND_MAP = {
     }
 }
 
+
 def check_table_pos(func):
     """Decorator to check whether command should be ignored or not.
     Command will only executed if the robot is properly placed in the table
     """
+
     def inner(self):
         if not self.is_properly_placed:
             return None
@@ -69,5 +76,5 @@ def check_table_pos(func):
             # (within the table boundary area)
             func(self)
             return self._check_out_of_bound()
-         
+
     return inner
